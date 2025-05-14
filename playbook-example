@@ -1,0 +1,17 @@
+-
+  - hosts: all
+    tasks:
+      - name: uninstall git
+        yum:
+          name: git
+          state: absent
+
+      - name: uninstall httpd
+        yum:
+          name: httpd
+          state: absent
+
+      - name: install docker
+        yum:
+          name: docker
+          state: present
