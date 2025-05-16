@@ -1,0 +1,10 @@
+- hosts: all
+  tasks:
+    - name: installing pip
+      yum: name=pip state=present
+
+    - name: installing pandas
+      pip: name=Pandas state=present
+
+    - name: installing NumPy
+      pip: name=NumPy state=present
