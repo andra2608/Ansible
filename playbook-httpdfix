@@ -1,0 +1,29 @@
+---
+- name: Fix Apache HTTPD start issue
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Ensure ServerName is set in httpd.conf
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        line: "ServerName localhost"
+        state: present
+
+    - name: Kill existing httpd processes (forceful)
+      shell: "pkill -9 httpd"
+      ignore_errors: yes
+
+    - name: Restart Apache service
+      service:
+        name: httpd
+        state: restarted
+
+    - name: Check status of Apache
+      command: systemctl status httpd
+      register: apache_status
+      ignore_errors: yes
+
+    - name: Show Apache status output
+      debug:
+        var: apache_status.stdout_lines
